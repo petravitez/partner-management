@@ -15,11 +15,24 @@ builder.Services.AddScoped<Func<IDbConnection>>(_ => () =>
     return connection;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") 
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+
 var app = builder.Build();
 
 app.UseSwaggerGen();
 
 app.UseFastEndpoints();
+
+app.UseCors();
 
 app.Run();
 

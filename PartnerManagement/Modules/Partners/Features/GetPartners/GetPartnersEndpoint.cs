@@ -5,9 +5,7 @@
 
 namespace PartnerManagement.Modules.Partners.Features.GetPartners;
 
-
-
-public class GetPartnersEndpoint : EndpointWithoutRequest<List<PartnerDto>>
+public class GetPartnersEndpoint : EndpointWithoutRequest<List<PartnerDetailsDto>>
 {
     private readonly Func<IDbConnection> _dbFactory;
 
@@ -22,15 +20,33 @@ public class GetPartnersEndpoint : EndpointWithoutRequest<List<PartnerDto>>
         AllowAnonymous();
         Summary(s =>
         {
-            s.Summary = "Get all partners";
-            s.Description = "Returns a list of all partners in the database";
+            s.Summary = "Get all partners with policy data";
+            s.Description = "Returns a list of all partners and their associated policy details";
         });
     }
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        using var db = _dbFactory(); 
-        var partners = await db.QueryAsync<PartnerDto>("SELECT * FROM Partner");
-        await SendAsync(partners.ToList());
+        using var db = _dbFactory();
+
+        var sql = @"
+            SELECT 
+                (p.FirstName + ' ' + p.LastName) AS Fullname,
+                p.PartnerNumber,
+                p.CroatianPIN,
+                p.PartnerTypeId,
+                p.CreatedAtUtc,
+                p.CreatedByUser,
+                p.IsForeign,
+                g.Code AS Gender, 
+                pol.PolicyNumber,
+                pol.PolicyAmount
+            FROM Partner p
+            LEFT JOIN Gender g ON g.Id = p.GenderId 
+            LEFT JOIN Policy pol ON pol.PartnerId = p.Id
+        ";
+
+        var result = await db.QueryAsync<PartnerDetailsDto>(sql);
+        await SendAsync(result.ToList());
     }
 }

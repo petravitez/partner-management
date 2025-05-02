@@ -1,0 +1,34 @@
+<div class="container">
+    <h2 class="my-4">List of Partners</h2>
+    <button class="btn btn-primary" (click)="createPartner()">Create New Partner</button>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Full Name</th>
+          <th>Partner Number</th>
+          <th>Gender</th>
+          <th>Created At</th>
+          <th>Created By</th>
+          <th>Policy Number</th>
+          <th>Policy Amount</th>
+          <th>Is Foreign</th> 
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let partner of partners" [ngClass]="{'new-partner': isNewPartner(partner.id)}">
+          <td>{{ partner.fullname }}</td>
+          <td>{{ partner.partnerNumber }}</td>
+          <td>{{ partner.gender }}</td>
+          <td>{{ partner.createdAtUtc | date: 'short' }}</td>
+          <td>{{ partner.createdByUser }}</td>
+          <td>{{ partner.policyNumber }}</td>
+          <td>{{ partner.policyAmount | currency }}</td>
+          <td>
+            <span *ngIf="partner.isForeign; else notForeign">✔</span>
+            <ng-template #notForeign>❌</ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
