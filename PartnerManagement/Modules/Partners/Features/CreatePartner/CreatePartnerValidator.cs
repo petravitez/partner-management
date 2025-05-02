@@ -57,7 +57,7 @@ namespace PartnerManagement.Modules.Partners.Features.CreatePartner
         }
 
 
-        private async Task<bool> ValidPartnerType(byte partnerTypeId, CancellationToken ct)
+        private async Task<bool> ValidPartnerType(int partnerTypeId, CancellationToken ct)
         {
             using var db = _dbFactory();
             var sql = "SELECT COUNT(1) FROM PartnerType WHERE Id = @Id";

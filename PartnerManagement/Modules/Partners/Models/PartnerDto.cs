@@ -1,18 +1,18 @@
 ﻿namespace PartnerManagement.Modules.Partners.Models
 {
-    public class PartnerDto
+    public record PartnerDto
     {
         public int Id { get; set; }
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
+        public required string FirstName { get; set; } 
+        public required string LastName { get; set; } 
         public string? Address { get; set; }
-        public string PartnerNumber { get; set; } = string.Empty;
+        public required string PartnerNumber { get; set; } 
         public string? CroatianPIN { get; set; }
-        public byte PartnerTypeId { get; set; }
+        public int PartnerTypeId { get; set; }
         public DateTime CreatedAtUtc { get; set; }
-        public string CreatedByUser { get; set; } = string.Empty;
+        public required string CreatedByUser { get; set; }
         public bool IsForeign { get; set; }
-        public string ExternalCode { get; set; } = string.Empty;
+        public required string ExternalCode { get; set; }
         public int GenderId { get; set; }
     }
 
