@@ -8,8 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints();
 builder.Services.SwaggerDocument();
 
-builder.Services.AddTransient<IDbConnection>(_ =>
-    new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<Func<IDbConnection>>(_ => () =>
+{
+    var connection = new SqlConnection(builder.Configuration.GetConnectionString("DefaultConnection"));
+    connection.Open(); 
+    return connection;
+});
 
 var app = builder.Build();
 

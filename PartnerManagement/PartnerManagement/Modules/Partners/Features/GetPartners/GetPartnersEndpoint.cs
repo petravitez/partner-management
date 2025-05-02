@@ -5,15 +5,15 @@
 
 namespace PartnerManagement.Modules.Partners.Features.GetPartners
 {
-   
+
 
     public class GetPartnersEndpoint : EndpointWithoutRequest<List<PartnerDto>>
     {
-        private readonly IDbConnection _db;
+        private readonly Func<IDbConnection> _dbFactory;
 
-        public GetPartnersEndpoint(IDbConnection db)
+        public GetPartnersEndpoint(Func<IDbConnection> dbFactory)
         {
-            _db = db;
+            _dbFactory = dbFactory;
         }
 
         public override void Configure()
@@ -29,9 +29,11 @@ namespace PartnerManagement.Modules.Partners.Features.GetPartners
 
         public override async Task HandleAsync(CancellationToken ct)
         {
-            var partners = await _db.QueryAsync<PartnerDto>("SELECT * FROM Partner");
+            using var db = _dbFactory(); 
+            var partners = await db.QueryAsync<PartnerDto>("SELECT * FROM Partner");
             await SendAsync(partners.ToList());
         }
     }
+
 
 }

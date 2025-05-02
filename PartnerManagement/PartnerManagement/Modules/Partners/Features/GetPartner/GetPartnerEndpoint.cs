@@ -9,11 +9,11 @@ namespace PartnerManagement.Modules.Partners.Features.GetPartner
 
     public class GetPartnerEndpoint : Endpoint<GetPartnerRequest, PartnerDto>
     {
-        private readonly IDbConnection _db;
+        private readonly Func<IDbConnection> _dbFactory;
 
-        public GetPartnerEndpoint(IDbConnection db)
+        public GetPartnerEndpoint(Func<IDbConnection> dbFactory)
         {
-            _db = db;
+            _dbFactory = dbFactory;
         }
 
         public override void Configure()
@@ -29,7 +29,8 @@ namespace PartnerManagement.Modules.Partners.Features.GetPartner
 
         public override async Task HandleAsync(GetPartnerRequest req, CancellationToken ct)
         {
-            var partner = await _db.QueryFirstOrDefaultAsync<PartnerDto>(
+            using var db = _dbFactory(); 
+            var partner = await db.QueryFirstOrDefaultAsync<PartnerDto>(
                 "SELECT * FROM Partner WHERE Id = @Id", new { req.Id });
 
             if (partner is null)
@@ -41,5 +42,6 @@ namespace PartnerManagement.Modules.Partners.Features.GetPartner
             await SendAsync(partner);
         }
     }
+
 
 }

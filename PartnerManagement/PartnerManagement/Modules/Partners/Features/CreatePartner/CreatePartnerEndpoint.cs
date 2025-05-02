@@ -7,11 +7,11 @@ namespace PartnerManagement.Modules.Partners.Features.CreatePartner
 {
     public class CreatePartnerEndpoint : Endpoint<CreatePartnerRequest, PartnerDto>
     {
-        private readonly IDbConnection _db;
+        private readonly Func<IDbConnection> _dbFactory;
 
-        public CreatePartnerEndpoint(IDbConnection db)
+        public CreatePartnerEndpoint(Func<IDbConnection> dbFactory)
         {
-            _db = db;
+            _dbFactory = dbFactory;
         }
 
         public override void Configure()
@@ -27,18 +27,21 @@ namespace PartnerManagement.Modules.Partners.Features.CreatePartner
 
         public override async Task HandleAsync(CreatePartnerRequest req, CancellationToken ct)
         {
-            var sql = @"
-            INSERT INTO Partner 
-            (FirstName, LastName, Address, PartnerNumber, CroatianPIN, PartnerTypeId,
-             CreatedAtUtc, CreatedByUser, IsForeign, ExternalCode, GenderId)
-            OUTPUT INSERTED.*
-            VALUES (@FirstName, @LastName, @Address, @PartnerNumber, @CroatianPIN, @PartnerTypeId,
-                    GETUTCDATE(), @CreatedByUser, @IsForeign, @ExternalCode, @GenderId);
-        ";
+            using var db = _dbFactory(); 
 
-            PartnerDto partner = await _db.QuerySingleAsync<PartnerDto>(sql, req);
+            var sql = @"
+        INSERT INTO Partner 
+        (FirstName, LastName, Address, PartnerNumber, CroatianPIN, PartnerTypeId,
+         CreatedAtUtc, CreatedByUser, IsForeign, ExternalCode, GenderId)
+        OUTPUT INSERTED.* 
+        VALUES (@FirstName, @LastName, @Address, @PartnerNumber, @CroatianPIN, @PartnerTypeId,
+                GETUTCDATE(), @CreatedByUser, @IsForeign, @ExternalCode, @GenderId);
+    ";
+
+            PartnerDto partner = await db.QuerySingleAsync<PartnerDto>(sql, req);
             await SendAsync(partner);
         }
     }
+
 
 }
