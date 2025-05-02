@@ -1,5 +1,6 @@
 ﻿using FastEndpoints;
 using FluentValidation;
+using PartnerManagement.Helpers;
 
 namespace PartnerManagement.Modules.Partners.Features.CreatePartner
 {
@@ -23,7 +24,9 @@ namespace PartnerManagement.Modules.Partners.Features.CreatePartner
                 .Length(20);
 
             RuleFor(x => x.CroatianPIN)
-                .Matches(@"^\d{11}$").When(x => !string.IsNullOrWhiteSpace(x.CroatianPIN));
+                    .Must(OibValidator.IsValid)
+                    .When(x => !string.IsNullOrWhiteSpace(x.CroatianPIN))
+                    .WithMessage("Croatian OIB is not valid.");
 
             RuleFor(x => x.PartnerTypeId)
                 .Must(x => x == 1 || x == 2)
