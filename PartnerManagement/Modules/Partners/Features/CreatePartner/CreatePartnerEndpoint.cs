@@ -3,33 +3,33 @@ using System.Data;
 using Dapper;
 using PartnerManagement.Modules.Partners.Models;
 
-namespace PartnerManagement.Modules.Partners.Features.CreatePartner
+namespace PartnerManagement.Modules.Partners.Features.CreatePartner;
+
+public class CreatePartnerEndpoint : Endpoint<CreatePartnerRequest, PartnerDto>
 {
-    public class CreatePartnerEndpoint : Endpoint<CreatePartnerRequest, PartnerDto>
+    private readonly Func<IDbConnection> _dbFactory;
+
+    public CreatePartnerEndpoint(Func<IDbConnection> dbFactory)
     {
-        private readonly Func<IDbConnection> _dbFactory;
+        _dbFactory = dbFactory;
+    }
 
-        public CreatePartnerEndpoint(Func<IDbConnection> dbFactory)
+    public override void Configure()
+    {
+        Post("/partners");
+        AllowAnonymous();
+        Summary(s =>
         {
-            _dbFactory = dbFactory;
-        }
+            s.Summary = "Create a new partner";
+            s.Description = "Inserts a new partner into the database and returns the created partner DTO.";
+        });
+    }
 
-        public override void Configure()
-        {
-            Post("/partners");
-            AllowAnonymous();
-            Summary(s =>
-            {
-                s.Summary = "Create a new partner";
-                s.Description = "Inserts a new partner into the database and returns the created partner DTO.";
-            });
-        }
+    public override async Task HandleAsync(CreatePartnerRequest req, CancellationToken ct)
+    {
+        using var db = _dbFactory(); 
 
-        public override async Task HandleAsync(CreatePartnerRequest req, CancellationToken ct)
-        {
-            using var db = _dbFactory(); 
-
-            var sql = @"
+        var sql = @"
         INSERT INTO Partner 
         (FirstName, LastName, Address, PartnerNumber, CroatianPIN, PartnerTypeId,
          CreatedAtUtc, CreatedByUser, IsForeign, ExternalCode, GenderId)
@@ -38,10 +38,7 @@ namespace PartnerManagement.Modules.Partners.Features.CreatePartner
                 GETUTCDATE(), @CreatedByUser, @IsForeign, @ExternalCode, @GenderId);
     ";
 
-            PartnerDto partner = await db.QuerySingleAsync<PartnerDto>(sql, req);
-            await SendAsync(partner);
-        }
+        PartnerDto partner = await db.QuerySingleAsync<PartnerDto>(sql, req);
+        await SendAsync(partner);
     }
-
-
 }
