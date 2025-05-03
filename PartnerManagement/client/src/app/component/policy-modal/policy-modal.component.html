@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h4 class="modal-title">Create Policy</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+    <form [formGroup]="partnerForm">
+      <div class="form-group">
+        <label for="partnerId">Partner</label>
+        <select class="form-control" formControlName="partnerId">
+          <option *ngFor="let p of partners" [value]="p.id">{{ p.fullname }}</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="policyNumber">Policy Number</label>
+        <input formControlName="policyNumber" class="form-control" />
+      </div>
+  
+      <div class="form-group">
+        <label for="policyAmount">Policy Amount</label>
+        <input formControlName="policyAmount" type="number" class="form-control" />
+      </div>
+    </form>
+  </div>
+  
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="activeModal.dismiss()">Cancel</button>
+    <button class="btn btn-primary" (click)="savePolicy()" [disabled]="partnerForm.invalid">Save</button>
+  </div>
+  

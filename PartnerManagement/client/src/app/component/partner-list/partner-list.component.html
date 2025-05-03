@@ -1,6 +1,9 @@
 <div class="container">
     <h2 class="my-4">List of Partners</h2>
     <button class="btn btn-primary" (click)="createPartner()">Create New Partner</button>
+    <button class="btn btn-primary" (click)="openPolicyModal()">Create Policy</button>
+    
+
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -9,21 +12,19 @@
           <th>Gender</th>
           <th>Created At</th>
           <th>Created By</th>
-          <th>Policy Number</th>
-          <th>Policy Amount</th>
           <th>Is Foreign</th> 
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let partner of partners"
-        [ngClass]="isNewPartner(partner.id) ? 'table-success' : ''">
-                <td>{{ partner.fullname }}</td>
-          <td>{{ partner.partnerNumber }}</td>
+        <tr *ngFor="let partner of partners" 
+        [ngClass]="{'highlight-new': isNewPartner(partner.id)}"
+        style="cursor: pointer;" 
+        (click)="openPartnerDetails(partner)">
+        <td>{{ partner.isImportant ? '* ' : '' }}{{ partner.fullname }}</td>
+        <td>{{ partner.partnerNumber }}</td>
           <td>{{ partner.gender }}</td>
           <td>{{ partner.createdAtUtc | date: 'short' }}</td>
           <td>{{ partner.createdByUser }}</td>
-          <td>{{ partner.policyNumber }}</td>
-          <td>{{ partner.policyAmount | currency }}</td>
           <td>
             <span *ngIf="partner.isForeign; else notForeign">✔</span>
             <ng-template #notForeign>❌</ng-template>
@@ -32,4 +33,6 @@
       </tbody>
     </table>
   </div>
+
+  
   

@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h4 class="modal-title">Partner Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+    <dl class="row">
+      <dt class="col-sm-4">Full Name</dt>
+      <dd class="col-sm-8">{{ partner.fullname }}</dd>
+  
+      <dt class="col-sm-4">Partner Number</dt>
+      <dd class="col-sm-8">{{ partner.partnerNumber }}</dd>
+  
+      <dt class="col-sm-4">Croatian PIN</dt>
+      <dd class="col-sm-8">{{ partner.croatianPIN || 'N/A' }}</dd>
+  
+      <dt class="col-sm-4">Partner Type ID</dt>
+      <dd class="col-sm-8">{{ partner.partnerTypeId }}</dd>
+  
+      <dt class="col-sm-4">Created At</dt>
+      <dd class="col-sm-8">{{ partner.createdAtUtc | date:'short' }}</dd>
+  
+      <dt class="col-sm-4">Created By</dt>
+      <dd class="col-sm-8">{{ partner.createdByUser }}</dd>
+  
+      <dt class="col-sm-4">Is Foreign</dt>
+      <dd class="col-sm-8">{{ partner.isForeign ? 'Yes' : 'No' }}</dd>
+  
+      <dt class="col-sm-4">Gender</dt>
+      <dd class="col-sm-8">{{ partner.gender }}</dd>
+    </dl>
+  </div>
+  
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Close</button>
+  </div>
+  
