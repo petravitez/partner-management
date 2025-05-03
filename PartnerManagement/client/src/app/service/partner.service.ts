@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from '../../enviroments/enviroment';
 import { PartnerDetails } from '../models/partner.details.model';
 import { CreatePartner } from '../models/partner-create.model';
+import { CreatePolicy } from '../models/policy-create.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +23,11 @@ export class PartnerService {
   createPartner(partner: CreatePartner): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/partners`, partner);
   }  
+
+  createPolicy(partnerId: number, policy: CreatePolicy): Observable<any> {
+    return this.http.post(`${this.baseUrl}/partners/${partnerId}/policies`, policy);
+  }
+ 
+  
 
 }

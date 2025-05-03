@@ -30,21 +30,31 @@ public class GetPartnersEndpoint : EndpointWithoutRequest<List<PartnerDetailsDto
         using var db = _dbFactory();
 
         var sql = @"
-            SELECT 
-                (p.FirstName + ' ' + p.LastName) AS Fullname,
-                p.PartnerNumber,
-                p.CroatianPIN,
-                p.PartnerTypeId,
-                p.CreatedAtUtc,
-                p.CreatedByUser,
-                p.IsForeign,
-                g.Code AS Gender, 
-                pol.PolicyNumber,
-                pol.PolicyAmount
-            FROM Partner p
-            LEFT JOIN Gender g ON g.Id = p.GenderId 
-            LEFT JOIN Policy pol ON pol.PartnerId = p.Id
-        ";
+        SELECT 
+            p.Id,    
+            (p.FirstName + ' ' + p.LastName) AS Fullname,
+            p.PartnerNumber,
+            p.CroatianPIN,
+            p.PartnerTypeId,
+            p.CreatedAtUtc,
+            p.CreatedByUser,
+            p.IsForeign,
+            g.Code AS Gender,
+            CASE 
+                WHEN ISNULL(pc.PolicyCount, 0) > 5 OR ISNULL(pc.TotalAmount, 0) > 5000 
+                THEN CAST(1 AS BIT)
+                ELSE CAST(0 AS BIT)
+            END AS IsImportant
+        FROM Partner p
+        LEFT JOIN Gender g ON g.Id = p.GenderId
+        LEFT JOIN (
+            SELECT PartnerId,
+                   COUNT(*) AS PolicyCount,
+                   SUM(PolicyAmount) AS TotalAmount
+            FROM Policy
+            GROUP BY PartnerId
+        ) pc ON pc.PartnerId = p.Id
+    ";
 
         var result = await db.QueryAsync<PartnerDetailsDto>(sql);
         await SendAsync(result.ToList());

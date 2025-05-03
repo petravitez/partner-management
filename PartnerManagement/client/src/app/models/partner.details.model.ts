@@ -8,7 +8,6 @@ export interface PartnerDetails {
     createdByUser: string;
     isForeign: boolean;
     gender: string;
-    policyNumber?: string;
-    policyAmount?: number;
+    isImportant: boolean;
   }
   
