@@ -5,10 +5,13 @@ import { PartnerDetails } from '../../models/partner.details.model';
 import { PartnerService } from '../../service/partner.service';
 import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
 import { PartnerDetailsModalComponent } from '../partner-details-modal/partner-details-modal.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-partner-list',
   templateUrl: './partner-list.component.html',
+  standalone: true,
+  imports: [CommonModule]
 })
 export class PartnerListComponent {
   partners = signal<PartnerDetails[]>([]);
