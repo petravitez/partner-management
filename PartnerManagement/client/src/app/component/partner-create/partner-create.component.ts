@@ -77,4 +77,8 @@ export class PartnerCreateComponent implements OnInit {
       }
     });
   }
+
+  goBack(): void {
+    this.router.navigate(['/partners']);
+  }
 }

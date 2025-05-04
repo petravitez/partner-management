@@ -1,43 +1,60 @@
 <div class="container">
-    <h2 class="my-4">List of Partners</h2>
-    <button class="btn btn-primary" (click)="createPartner()">Create New Partner</button>
+  <h2 class="my-4">List of Partners</h2>
+
+  <div class="d-flex gap-3 mb-3">
+    <button class="btn btn-primary mr-3" (click)="createPartner()">Create New Partner</button>
     <button class="btn btn-primary" (click)="openPolicyModal()">Create Policy</button>
-    
+  </div>
+  
+  
 
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>Full Name</th>
-          <th>Partner Number</th>
-          <th>Gender</th>
-          <th>Created At</th>
-          <th>OIB</th>
-          <th>PartnerType</th> 
-          <th>Is Foreign</th> 
-
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let partner of partners()"
-        [ngClass]="{ 'highlight-new': isNewPartner(partner.id) }"
-        (click)="openPartnerDetails(partner)"
-        style="cursor: pointer;">
-    
+  <table class="table table-bordered table-striped" *ngIf="partners().length > 0">
+    <thead>
+      <tr>
+        <th>Full Name</th>
+        <th>Partner Number</th>
+        <th>Gender</th>
+        <th>Created At</th>
+        <th>OIB</th>
+        <th>Partner Type</th>
+        <th>Is Foreign</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let partner of partners()"
+          [class.highlight-new]="partner.id === newPartnerId()"
+          (click)="openPartnerDetails(partner)"
+          style="cursor: pointer;">
         <td>{{ partner.isImportant ? '* ' : '' }}{{ partner.fullname }}</td>
         <td>{{ partner.partnerNumber }}</td>
-          <td>{{ partner.gender }}</td>
-          <td>{{ partner.createdAtUtc | date: 'short' }}</td>
-          <td>{{ partner.croatianPIN }}</td>
-          <td>{{ getPartnerTypeLabel(partner.partnerTypeId) }}</td>
+        <td>{{ partner.gender }}</td>
+        <td>{{ partner.createdAtUtc | date: 'short' }}</td>
+        <td>{{ partner.croatianPIN }}</td>
+        <td>{{ getPartnerTypeLabel(partner.partnerTypeId) }}</td>
+        <td>
+          <span *ngIf="partner.isForeign; else notForeign">✔</span>
+          <ng-template #notForeign>❌</ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-          <td>
-            <span *ngIf="partner.isForeign; else notForeign">✔</span>
-            <ng-template #notForeign>❌</ng-template>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <!-- Pagination Controls -->
+  <nav *ngIf="totalPages() > 1" class="mt-3">
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="currentPage() === 1">
+        <button class="page-link" (click)="goToPage(currentPage() - 1)">Previous</button>
+      </li>
 
-  
-  
+      <li class="page-item"
+          *ngFor="let page of [].constructor(totalPages()); let i = index"
+          [class.active]="i + 1 === currentPage()">
+        <button class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+        <button class="page-link" (click)="goToPage(currentPage() + 1)">Next</button>
+      </li>
+    </ul>
+  </nav>
+</div>

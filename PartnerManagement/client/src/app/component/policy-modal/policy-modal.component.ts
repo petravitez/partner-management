@@ -35,7 +35,7 @@ export class PolicyModalComponent {
   }
 
   loadPartners(): void {
-    this.partnerService.getPartners().subscribe(data => this.partners = data);
+    this.partnerService.getPartnerDropdown().subscribe(data => this.partners = data);
   }
 
   savePolicy(): void {

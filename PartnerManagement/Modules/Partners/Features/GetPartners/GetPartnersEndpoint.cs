@@ -5,7 +5,7 @@
 
 namespace PartnerManagement.Modules.Partners.Features.GetPartners;
 
-public class GetPartnersEndpoint : EndpointWithoutRequest<List<PartnerDetailsDto>>
+public class GetPartnersEndpoint : Endpoint<GetPartnersRequest, GetPartnersResponse>
 {
     private readonly Func<IDbConnection> _dbFactory;
 
@@ -18,16 +18,13 @@ public class GetPartnersEndpoint : EndpointWithoutRequest<List<PartnerDetailsDto
     {
         Get("/partners");
         AllowAnonymous();
-        Summary(s =>
-        {
-            s.Summary = "Get all partners with policy data";
-            s.Description = "Returns a list of all partners and their associated policy details";
-        });
     }
 
-    public override async Task HandleAsync(CancellationToken ct)
+    public override async Task HandleAsync(GetPartnersRequest req, CancellationToken ct)
     {
         using var db = _dbFactory();
+
+        var offset = (req.Page - 1) * req.PageSize;
 
         var sql = @"
         SELECT 
@@ -56,10 +53,20 @@ public class GetPartnersEndpoint : EndpointWithoutRequest<List<PartnerDetailsDto
             FROM Policy
             GROUP BY PartnerId
         ) pc ON pc.PartnerId = p.Id
-        ORDER BY P.CreatedAtUtc DESC
-    ";
+        ORDER BY p.CreatedAtUtc DESC
+        OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;
 
-        var result = await db.QueryAsync<PartnerDetailsDto>(sql);
-        await SendAsync(result.ToList());
+        SELECT COUNT(*) FROM Partner;
+        ";
+
+        using var multi = await db.QueryMultipleAsync(sql, new { Offset = offset, req.PageSize });
+        var items = (await multi.ReadAsync<PartnerDetailsDto>()).ToList();
+        var total = await multi.ReadFirstAsync<int>();
+
+        await SendAsync(new GetPartnersResponse
+        {
+            Items = items,
+            TotalCount = total
+        });
     }
 }

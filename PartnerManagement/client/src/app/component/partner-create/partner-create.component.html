@@ -1,4 +1,7 @@
 <div class="container">
+  <button class="btn btn-secondary mb-3" (click)="goBack()">
+    ← 
+  </button>
   <h2 class="my-4">Create New Partner</h2>
 
   <form [formGroup]="partnerForm" (ngSubmit)="onSubmit()">
