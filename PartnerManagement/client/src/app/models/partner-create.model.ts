@@ -1,4 +1,4 @@
-export interface CreatePartner {
+export interface CreatePartnerRequest {
     id: number;
     firstName: string;
     lastName: string;
@@ -6,7 +6,7 @@ export interface CreatePartner {
     partnerNumber: string;
     croatianPIN?: string;
     partnerTypeId: number;
-    createdAtUtc: string; // ISO string (DateTime from .NET)
+    createdAtUtc: string; 
     createdByUser: string;
     isForeign: boolean;
     externalCode: string;

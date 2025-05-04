@@ -1,98 +1,80 @@
 <div class="container">
-    <h2 class="my-4">Create New Partner</h2>
-    <form [formGroup]="partnerForm" (ngSubmit)="onSubmit()">
-      
-      <!-- First Name -->
-      <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input id="firstName" formControlName="firstName" class="form-control" />
-        <div *ngIf="partnerForm.get('firstName')?.invalid && partnerForm.get('firstName')?.touched" class="text-danger">
-          First Name is required
-        </div>
+  <h2 class="my-4">Create New Partner</h2>
+
+  <form [formGroup]="partnerForm" (ngSubmit)="onSubmit()">
+    
+    <!-- First Name -->
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input id="firstName" formControlName="firstName" class="form-control" />
+      <div *ngIf="partnerForm.get('firstName')?.invalid && partnerForm.get('firstName')?.touched" class="text-danger">
+        First Name is required and must be at least 2 characters.
       </div>
-      
-      <!-- Last Name -->
-      <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input id="lastName" formControlName="lastName" class="form-control" />
-        <div *ngIf="partnerForm.get('lastName')?.invalid && partnerForm.get('lastName')?.touched" class="text-danger">
-          Last Name is required
-        </div>
-      </div>
-  
-      <!-- Partner Number -->
-      <div class="form-group">
-        <label for="partnerNumber">Partner Number</label>
-        <input id="partnerNumber" formControlName="partnerNumber" class="form-control" />
-        <div *ngIf="partnerForm.get('partnerNumber')?.invalid && partnerForm.get('partnerNumber')?.touched" class="text-danger">
-          Partner Number is required and should be at least 20 characters.
-        </div>
-      </div>
-  
-      <!-- Croatian PIN -->
-      <div class="form-group">
-        <label for="croatianPIN">Croatian PIN</label>
-        <input id="croatianPIN" formControlName="croatianPIN" class="form-control" />
-      </div>
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input id="lastName" formControlName="lastName" class="form-control" />
+    </div>
+
+    <!-- Partner Number -->
+    <div class="form-group">
+      <label for="partnerNumber">Partner Number</label>
+      <input id="partnerNumber" formControlName="partnerNumber" class="form-control" />
+    </div>
+
+    <!-- Croatian PIN -->
+    <div class="form-group">
+      <label for="croatianPIN">Croatian PIN</label>
+      <input id="croatianPIN" formControlName="croatianPIN" class="form-control" />
       <div *ngIf="partnerForm.get('croatianPIN')?.hasError('oibInvalid') && partnerForm.get('croatianPIN')?.touched" class="text-danger">
         {{ partnerForm.get('croatianPIN')?.getError('oibInvalid') }}
       </div>
-      
-      
-  
-      <!-- Partner Type ID -->
-      <div class="form-group">
-        <label for="partnerTypeId">Partner Type</label>
-        <input id="partnerTypeId" formControlName="partnerTypeId" class="form-control" />
-      </div>
-  
-      <!-- Created By User -->
-      <div class="form-group">
-        <label for="createdByUser">Created By User</label>
-        <input id="createdByUser" formControlName="createdByUser" class="form-control" />
-        <div *ngIf="partnerForm.get('createdByUser')?.invalid && partnerForm.get('createdByUser')?.touched" class="text-danger">
-          Created By User is required
-        </div>
-      </div>
-  
-      <!-- Is Foreign -->
-      <div class="form-group">
-        <label for="isForeign">Is Foreign?</label>
-        <input id="isForeign" type="checkbox" formControlName="isForeign" />
-      </div>
-  
-      <!-- External Code -->
-      <div class="form-group">
-        <label for="externalCode">External Code</label>
-        <input id="externalCode" formControlName="externalCode" class="form-control" />
-        <div *ngIf="partnerForm.get('externalCode')?.touched 
-            && partnerForm.get('externalCode')?.invalid 
-            && !partnerForm.get('externalCode')?.hasError('externalCodeTaken')" 
-     class="text-danger">
-  External Code is required and should be between 10 and 20 characters.
-</div>
-
-<div *ngIf="partnerForm.get('externalCode')?.hasError('externalCodeTaken') 
-            && partnerForm.get('externalCode')?.touched" 
-     class="text-danger">
-  External code is already in use.
-      </div>   
     </div>
-  
-      <!-- Gender -->
-      <div class="form-group">
-        <label for="genderId">Gender</label>
-        <select id="genderId" formControlName="genderId" class="form-control">
-          <option value="1">Male</option>
-          <option value="2">Female</option>
-          <option value="3">Non-Binary</option>
-        </select>
+
+    <!-- Partner Type -->
+    <div class="form-group">
+      <label for="partnerTypeId">Partner Type</label>
+      <input id="partnerTypeId" formControlName="partnerTypeId" class="form-control" />
+    </div>
+
+    <!-- Created By -->
+    <div class="form-group">
+      <label for="createdByUser">Created By</label>
+      <input id="createdByUser" formControlName="createdByUser" class="form-control" />
+    </div>
+
+    <!-- Is Foreign -->
+    <div class="form-group">
+      <label>
+        <input type="checkbox" formControlName="isForeign" /> Is Foreign?
+      </label>
+    </div>
+
+    <!-- External Code -->
+    <div class="form-group">
+      <label for="externalCode">External Code</label>
+      <input id="externalCode" formControlName="externalCode" class="form-control" />
+      <div *ngIf="externalCodeTaken()" class="text-danger">
+        External code is already in use.
       </div>
-  
-      <!-- Submit Button -->
-      <div class="form-group">
-        <button type="submit" class="btn btn-success">Save Partner</button>
-      </div>
-    </form>
-  </div>
-  
+    </div>
+
+    <!-- Gender -->
+    <div class="form-group">
+      <label for="genderId">Gender</label>
+      <select id="genderId" formControlName="genderId" class="form-control">
+        <option value="">Select Gender</option>
+        <option value="1">Male</option>
+        <option value="2">Female</option>
+        <option value="3">Non-Binary</option>
+      </select>
+    </div>
+
+    <!-- Submit -->
+    <div class="form-group mt-3">
+      <button type="submit" class="btn btn-success" [disabled]="!isFormValid()">Save Partner</button>
+    </div>
+  </form>
+</div>

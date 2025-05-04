@@ -2,9 +2,9 @@ import { Component, Input } from '@angular/core';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PartnerService } from '../../service/partner.service';
-import { CreatePolicy } from '../../models/policy-create.model';
 import { CommonModule } from '@angular/common';
 import { markFormGroupTouched } from '../../validators/update-form';
+import { CreatePolicyRequest } from '../../models/policy-create.model';
 
 @Component({
   standalone: true,
@@ -45,7 +45,7 @@ export class PolicyModalComponent {
          return;
        }
 
-    const policy: CreatePolicy = this.policyForm.value;
+    const policy: CreatePolicyRequest = this.policyForm.value;
     this.partnerService.createPolicy(policy.partnerId, policy).subscribe(() => {
       this.activeModal.close('saved');
     });

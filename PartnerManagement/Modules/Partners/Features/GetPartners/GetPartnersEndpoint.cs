@@ -54,6 +54,7 @@ public class GetPartnersEndpoint : EndpointWithoutRequest<List<PartnerDetailsDto
             FROM Policy
             GROUP BY PartnerId
         ) pc ON pc.PartnerId = p.Id
+        ORDER BY P.CreatedAtUtc DESC
     ";
 
         var result = await db.QueryAsync<PartnerDetailsDto>(sql);

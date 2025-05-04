@@ -16,10 +16,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let partner of partners" 
-        [ngClass]="{'highlight-new': isNewPartner(partner.id)}"
-        style="cursor: pointer;" 
-        (click)="openPartnerDetails(partner)">
+        <tr *ngFor="let partner of partners()"
+        [ngClass]="{ 'highlight-new': isNewPartner(partner.id) }"
+        (click)="openPartnerDetails(partner)"
+        style="cursor: pointer;">
+    
         <td>{{ partner.isImportant ? '* ' : '' }}{{ partner.fullname }}</td>
         <td>{{ partner.partnerNumber }}</td>
           <td>{{ partner.gender }}</td>
