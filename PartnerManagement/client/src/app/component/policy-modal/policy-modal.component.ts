@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { PartnerService } from '../../service/partner.service';
 import { CreatePolicy } from '../../models/policy-create.model';
 import { CommonModule } from '@angular/common';
+import { markFormGroupTouched } from '../../validators/update-form';
 
 @Component({
   standalone: true,
@@ -12,7 +13,7 @@ import { CommonModule } from '@angular/common';
   imports: [ReactiveFormsModule, CommonModule, NgbModule]
 })
 export class PolicyModalComponent {
-  partnerForm: FormGroup;
+  policyForm: FormGroup;
   partners: any[] = [];
 
   constructor(
@@ -20,12 +21,16 @@ export class PolicyModalComponent {
     private fb: FormBuilder,
     private partnerService: PartnerService,
   ) {
-    this.partnerForm = this.fb.group({
+    this.policyForm = this.fb.group({
       partnerId: [null, Validators.required],
-      policyNumber: ['', Validators.required],
-      policyAmount: [0, [Validators.required, Validators.min(1)]]
+      policyNumber: ['', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(15)
+      ]],
+      policyAmount: [0, [Validators.required]]
     });
-
+    
     this.loadPartners();
   }
 
@@ -34,9 +39,13 @@ export class PolicyModalComponent {
   }
 
   savePolicy(): void {
-    if (this.partnerForm.invalid) return;
+    markFormGroupTouched(this.policyForm);
+     
+       if (this.policyForm.invalid) {
+         return;
+       }
 
-    const policy: CreatePolicy = this.partnerForm.value;
+    const policy: CreatePolicy = this.policyForm.value;
     this.partnerService.createPolicy(policy.partnerId, policy).subscribe(() => {
       this.activeModal.close('saved');
     });

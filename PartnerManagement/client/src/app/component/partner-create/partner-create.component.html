@@ -34,6 +34,11 @@
         <label for="croatianPIN">Croatian PIN</label>
         <input id="croatianPIN" formControlName="croatianPIN" class="form-control" />
       </div>
+      <div *ngIf="partnerForm.get('croatianPIN')?.hasError('oibInvalid') && partnerForm.get('croatianPIN')?.touched" class="text-danger">
+        {{ partnerForm.get('croatianPIN')?.getError('oibInvalid') }}
+      </div>
+      
+      
   
       <!-- Partner Type ID -->
       <div class="form-group">
@@ -60,10 +65,19 @@
       <div class="form-group">
         <label for="externalCode">External Code</label>
         <input id="externalCode" formControlName="externalCode" class="form-control" />
-        <div *ngIf="partnerForm.get('externalCode')?.invalid && partnerForm.get('externalCode')?.touched" class="text-danger">
-          External Code is required and should be at least 10 characters.
-        </div>
-      </div>
+        <div *ngIf="partnerForm.get('externalCode')?.touched 
+            && partnerForm.get('externalCode')?.invalid 
+            && !partnerForm.get('externalCode')?.hasError('externalCodeTaken')" 
+     class="text-danger">
+  External Code is required and should be between 10 and 20 characters.
+</div>
+
+<div *ngIf="partnerForm.get('externalCode')?.hasError('externalCodeTaken') 
+            && partnerForm.get('externalCode')?.touched" 
+     class="text-danger">
+  External code is already in use.
+      </div>   
+    </div>
   
       <!-- Gender -->
       <div class="form-group">
@@ -77,7 +91,7 @@
   
       <!-- Submit Button -->
       <div class="form-group">
-        <button type="submit" class="btn btn-success" [disabled]="partnerForm.invalid">Save Partner</button>
+        <button type="submit" class="btn btn-success">Save Partner</button>
       </div>
     </form>
   </div>
