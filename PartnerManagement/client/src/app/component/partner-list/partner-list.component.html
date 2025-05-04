@@ -11,8 +11,10 @@
           <th>Partner Number</th>
           <th>Gender</th>
           <th>Created At</th>
-          <th>Created By</th>
+          <th>OIB</th>
+          <th>PartnerType</th> 
           <th>Is Foreign</th> 
+
         </tr>
       </thead>
       <tbody>
@@ -25,7 +27,9 @@
         <td>{{ partner.partnerNumber }}</td>
           <td>{{ partner.gender }}</td>
           <td>{{ partner.createdAtUtc | date: 'short' }}</td>
-          <td>{{ partner.createdByUser }}</td>
+          <td>{{ partner.croatianPIN }}</td>
+          <td>{{ getPartnerTypeLabel(partner.partnerTypeId) }}</td>
+
           <td>
             <span *ngIf="partner.isForeign; else notForeign">✔</span>
             <ng-template #notForeign>❌</ng-template>

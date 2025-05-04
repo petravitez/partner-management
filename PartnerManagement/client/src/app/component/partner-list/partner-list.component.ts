@@ -70,4 +70,13 @@ export class PartnerListComponent {
     const modalRef = this.modalService.open(PartnerDetailsModalComponent, { size: 'lg' });
     modalRef.componentInstance.partner = partner;
   }
+
+  getPartnerTypeLabel(typeId: number): string {
+    switch (typeId) {
+      case 1: return 'Personal';
+      case 2: return 'Legal';
+      default: return 'Unknown';
+    }
+  }
+  
 }

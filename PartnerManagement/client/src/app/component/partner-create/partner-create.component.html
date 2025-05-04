@@ -16,12 +16,24 @@
     <div class="form-group">
       <label for="lastName">Last Name</label>
       <input id="lastName" formControlName="lastName" class="form-control" />
+      <div *ngIf="partnerForm.get('lastName')?.invalid && partnerForm.get('lastName')?.touched" class="text-danger">
+        Last Name is required and must be at least 2 characters.
+      </div>
+    </div>
+
+        <!-- Address -->
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input id="address" formControlName="address" class="form-control" />
     </div>
 
     <!-- Partner Number -->
     <div class="form-group">
       <label for="partnerNumber">Partner Number</label>
       <input id="partnerNumber" formControlName="partnerNumber" class="form-control" />
+      <div *ngIf="partnerForm.get('partnerNumber')?.invalid && partnerForm.get('partnerNumber')?.touched" class="text-danger">
+        Partner number is required and must be 20 characters.
+      </div>
     </div>
 
     <!-- Croatian PIN -->
@@ -34,15 +46,26 @@
     </div>
 
     <!-- Partner Type -->
-    <div class="form-group">
-      <label for="partnerTypeId">Partner Type</label>
-      <input id="partnerTypeId" formControlName="partnerTypeId" class="form-control" />
-    </div>
+<div class="form-group">
+  <label for="partnerTypeId">Partner Type</label>
+  <select id="partnerTypeId" formControlName="partnerTypeId" class="form-control">
+    <option value="">Select Partner Type</option>
+    <option value="1">Personal</option>
+    <option value="2">Legal</option>
+  </select>
+  <div *ngIf="partnerForm.get('partnerTypeId')?.invalid && partnerForm.get('partnerTypeId')?.touched" class="text-danger">
+    Partner Type is required.
+  </div>
+</div>
+
 
     <!-- Created By -->
     <div class="form-group">
       <label for="createdByUser">Created By</label>
       <input id="createdByUser" formControlName="createdByUser" class="form-control" />
+      <div *ngIf="partnerForm.get('createdByUser')?.invalid && partnerForm.get('createdByUser')?.touched" class="text-danger">
+        Created By is required email.
+      </div>
     </div>
 
     <!-- Is Foreign -->
@@ -66,15 +89,18 @@
       <label for="genderId">Gender</label>
       <select id="genderId" formControlName="genderId" class="form-control">
         <option value="">Select Gender</option>
-        <option value="1">Male</option>
-        <option value="2">Female</option>
-        <option value="3">Non-Binary</option>
+        <option value="1">M</option>
+        <option value="2">F</option>
+        <option value="3">N</option>
       </select>
+      <div *ngIf="partnerForm.get('genderId')?.invalid && partnerForm.get('genderId')?.touched" class="text-danger">
+        Gender is required.
+      </div>
     </div>
 
     <!-- Submit -->
     <div class="form-group mt-3">
-      <button type="submit" class="btn btn-success" [disabled]="!isFormValid()">Save Partner</button>
+      <button type="submit" class="btn btn-success">Save Partner</button>
     </div>
   </form>
 </div>

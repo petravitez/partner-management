@@ -1,6 +1,7 @@
 export interface PartnerDetails {
     id: number;
     fullname: string;
+    address: string;
     partnerNumber: string;
     croatianPIN?: string;
     partnerTypeId: number;
@@ -8,6 +9,7 @@ export interface PartnerDetails {
     createdByUser: string;
     isForeign: boolean;
     gender: string;
+    externalCode: string;
     isImportant: boolean;
   }
   

@@ -33,6 +33,8 @@ public class GetPartnersEndpoint : EndpointWithoutRequest<List<PartnerDetailsDto
         SELECT 
             p.Id,    
             (p.FirstName + ' ' + p.LastName) AS Fullname,
+            p.Address,
+            p.ExternalCode,
             p.PartnerNumber,
             p.CroatianPIN,
             p.PartnerTypeId,

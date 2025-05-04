@@ -4,6 +4,8 @@ public class PartnerDetailsDto
 {
     public int Id { get; set; }
     public required string Fullname { get; set; }
+    public string? Address { get; set; }
+    public string? ExternalCode { get; set; }
     public required string PartnerNumber { get; set; }
     public string? CroatianPIN { get; set; }
     public int PartnerTypeId { get; set; }

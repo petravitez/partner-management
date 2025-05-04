@@ -14,4 +14,12 @@ export class PartnerDetailsModalComponent {
   @Input() partner!: PartnerDetails;
 
   constructor(public activeModal: NgbActiveModal) {}
+
+  getPartnerTypeLabel(typeId: number): string {
+    switch (typeId) {
+      case 1: return 'Personal';
+      case 2: return 'Legal';
+      default: return 'Unknown';
+    }
+  }
 }

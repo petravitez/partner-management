@@ -9,6 +9,9 @@
     <dl class="row">
       <dt class="col-sm-4">Full Name</dt>
       <dd class="col-sm-8">{{ partner.fullname }}</dd>
+
+      <dt class="col-sm-4">Address</dt>
+      <dd class="col-sm-8">{{ partner.address }}</dd>
   
       <dt class="col-sm-4">Partner Number</dt>
       <dd class="col-sm-8">{{ partner.partnerNumber }}</dd>
@@ -17,7 +20,8 @@
       <dd class="col-sm-8">{{ partner.croatianPIN || 'N/A' }}</dd>
   
       <dt class="col-sm-4">Partner Type ID</dt>
-      <dd class="col-sm-8">{{ partner.partnerTypeId }}</dd>
+      <dd class="col-sm-8"><td>{{ getPartnerTypeLabel(partner.partnerTypeId) }}</td>
+      </dd>
   
       <dt class="col-sm-4">Created At</dt>
       <dd class="col-sm-8">{{ partner.createdAtUtc | date:'short' }}</dd>
@@ -30,6 +34,9 @@
   
       <dt class="col-sm-4">Gender</dt>
       <dd class="col-sm-8">{{ partner.gender }}</dd>
+
+      <dt class="col-sm-4">External code</dt>
+      <dd class="col-sm-8">{{ partner.externalCode }}</dd>
     </dl>
   </div>
   
