@@ -1,1 +1,26 @@
+<div class="language-switcher d-flex justify-content-end align-items-center mb-4 mt-2 pe-3">
+    <div class="btn-group btn-group-sm" role="group" aria-label="Language switcher">
+      <button
+        class="btn"
+        [ngClass]="{
+          'btn-primary': activeLang() === 'en',
+          'btn-outline-secondary': activeLang() !== 'en'
+        }"
+        (click)="setLang('en')"
+      >
+      🌐EN
+      </button>
+      <button
+        class="btn"
+        [ngClass]="{
+          'btn-primary': activeLang() === 'hr',
+          'btn-outline-secondary': activeLang() !== 'hr'
+        }"
+        (click)="setLang('hr')"
+      >
+      🌐HR;
+      </button>
+    </div>
+  </div>
+  
 <router-outlet></router-outlet>

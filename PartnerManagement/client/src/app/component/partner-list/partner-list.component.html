@@ -1,23 +1,25 @@
 <div class="container">
-  <h2 class="my-4">List of Partners</h2>
+  <h2 class="my-4">{{ 'partnerList.title' | transloco }}</h2>
 
   <div class="d-flex gap-3 mb-3">
-    <button class="btn btn-primary mr-3" (click)="createPartner()">Create New Partner</button>
-    <button class="btn btn-primary" (click)="openPolicyModal()">Create Policy</button>
+    <button class="btn btn-primary mr-3" (click)="createPartner()">
+      {{ 'partnerList.createPartner' | transloco }}
+    </button>
+    <button class="btn btn-primary" (click)="openPolicyModal()">
+      {{ 'partnerList.createPolicy' | transloco }}
+    </button>
   </div>
-  
-  
 
   <table class="table table-bordered table-striped" *ngIf="partners().length > 0">
     <thead>
       <tr>
-        <th>Full Name</th>
-        <th>Partner Number</th>
-        <th>Gender</th>
-        <th>Created At</th>
-        <th>OIB</th>
-        <th>Partner Type</th>
-        <th>Is Foreign</th>
+        <th>{{ 'partnerList.fullName' | transloco }}</th>
+        <th>{{ 'partnerList.partnerNumber' | transloco }}</th>
+        <th>{{ 'partnerList.gender' | transloco }}</th>
+        <th>{{ 'partnerList.createdAt' | transloco }}</th>
+        <th>{{ 'partnerList.oib' | transloco }}</th>
+        <th>{{ 'partnerList.partnerType' | transloco }}</th>
+        <th>{{ 'partnerList.isForeign' | transloco }}</th>
       </tr>
     </thead>
     <tbody>
@@ -30,31 +32,29 @@
         <td>{{ partner.gender }}</td>
         <td>{{ partner.createdAtUtc | date: 'short' }}</td>
         <td>{{ partner.croatianPIN }}</td>
-        <td>{{ getPartnerTypeLabel(partner.partnerTypeId) }}</td>
+        <td>{{ getPartnerTypeLabel(partner.partnerTypeId) | transloco }}</td>
         <td>
-          <span *ngIf="partner.isForeign; else notForeign">✔</span>
-          <ng-template #notForeign>❌</ng-template>
+          <span *ngIf="partner.isForeign; else notForeign">{{ 'partnerList.yes' | transloco }}</span>
+          <ng-template #notForeign>{{ 'partnerList.no' | transloco }}</ng-template>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <!-- Pagination Controls -->
   <nav *ngIf="totalPages() > 1" class="mt-3">
     <ul class="pagination">
       <li class="page-item" [class.disabled]="currentPage() === 1">
-        <button class="page-link" (click)="goToPage(currentPage() - 1)">Previous</button>
+        <button class="page-link" (click)="goToPage(currentPage() - 1)">{{ 'partnerList.previous' | transloco }}</button>
       </li>
-
       <li class="page-item"
           *ngFor="let page of [].constructor(totalPages()); let i = index"
           [class.active]="i + 1 === currentPage()">
         <button class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
       </li>
-
       <li class="page-item" [class.disabled]="currentPage() === totalPages()">
-        <button class="page-link" (click)="goToPage(currentPage() + 1)">Next</button>
+        <button class="page-link" (click)="goToPage(currentPage() + 1)">{{ 'partnerList.next' | transloco }}</button>
       </li>
     </ul>
   </nav>
 </div>
+

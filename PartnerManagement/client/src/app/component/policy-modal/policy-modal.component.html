@@ -1,36 +1,35 @@
 <div class="modal-header">
-    <h4 class="modal-title">Create Policy</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  
-  <div class="modal-body">
-    <form [formGroup]="policyForm">
-      <div class="form-group">
-        <label for="partnerId">Partner</label>
-        <select class="form-control" formControlName="partnerId">
-          <option *ngFor="let p of partners" [value]="p.id">{{ p.fullName }}</option>
-        </select>
+  <h4 class="modal-title">{{ 'policyModal.title' | transloco }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="policyForm">
+    <div class="form-group">
+      <label for="partnerId">{{ 'policyModal.partner' | transloco }}</label>
+      <select class="form-control" formControlName="partnerId">
+        <option *ngFor="let p of partners" [value]="p.id">{{ p.fullName }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="policyNumber">{{ 'policyModal.policyNumber' | transloco }}</label>
+      <input formControlName="policyNumber" class="form-control" />
+      <div *ngIf="policyForm.get('policyNumber')?.invalid && policyForm.get('policyNumber')?.touched" class="text-danger">
+        {{ 'policyModal.policyNumberError' | transloco }}
       </div>
-  
-      <div class="form-group">
-        <label for="policyNumber">Policy Number</label>
-        <input formControlName="policyNumber" class="form-control" />
-        <div *ngIf="policyForm.get('policyNumber')?.invalid && policyForm.get('policyNumber')?.touched" class="text-danger">
-          Policy Number is required and should be between 10 and 15 characters.
-        </div>
-      </div>
-  
-      <div class="form-group">
-        <label for="policyAmount">Policy Amount</label>
-        <input formControlName="policyAmount" type="number" class="form-control" />
-      </div>
-    </form>
-  </div>
-  
-  <div class="modal-footer">
-    <button class="btn btn-secondary" (click)="activeModal.dismiss()">Cancel</button>
-    <button class="btn btn-primary" (click)="savePolicy()">Save</button>
-  </div>
-  
+    </div>
+
+    <div class="form-group">
+      <label for="policyAmount">{{ 'policyModal.policyAmount' | transloco }}</label>
+      <input formControlName="policyAmount" type="number" class="form-control" />
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-secondary" (click)="activeModal.dismiss()">{{ 'policyModal.cancel' | transloco }}</button>
+  <button class="btn btn-primary" (click)="savePolicy()">{{ 'policyModal.save' | transloco }}</button>
+</div>

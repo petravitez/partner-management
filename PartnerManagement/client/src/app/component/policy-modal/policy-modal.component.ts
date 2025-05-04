@@ -5,12 +5,13 @@ import { PartnerService } from '../../service/partner.service';
 import { CommonModule } from '@angular/common';
 import { markFormGroupTouched } from '../../validators/update-form';
 import { CreatePolicyRequest } from '../../models/policy-create.model';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   standalone: true,
   selector: 'app-policy-modal',
   templateUrl: './policy-modal.component.html',
-  imports: [ReactiveFormsModule, CommonModule, NgbModule]
+  imports: [ReactiveFormsModule, CommonModule, NgbModule, TranslocoModule]
 })
 export class PolicyModalComponent {
   policyForm: FormGroup;

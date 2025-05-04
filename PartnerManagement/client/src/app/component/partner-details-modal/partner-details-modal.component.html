@@ -1,46 +1,44 @@
 <div class="modal-header">
-    <h4 class="modal-title">Partner Details</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  
-  <div class="modal-body">
-    <dl class="row">
-      <dt class="col-sm-4">Full Name</dt>
-      <dd class="col-sm-8">{{ partner.fullname }}</dd>
+  <h4 class="modal-title">{{ 'partnerDetails.title' | transloco }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
-      <dt class="col-sm-4">Address</dt>
-      <dd class="col-sm-8">{{ partner.address }}</dd>
-  
-      <dt class="col-sm-4">Partner Number</dt>
-      <dd class="col-sm-8">{{ partner.partnerNumber }}</dd>
-  
-      <dt class="col-sm-4">Croatian PIN</dt>
-      <dd class="col-sm-8">{{ partner.croatianPIN || 'N/A' }}</dd>
-  
-      <dt class="col-sm-4">Partner Type ID</dt>
-      <dd class="col-sm-8"><td>{{ getPartnerTypeLabel(partner.partnerTypeId) }}</td>
-      </dd>
-  
-      <dt class="col-sm-4">Created At</dt>
-      <dd class="col-sm-8">{{ partner.createdAtUtc | date:'short' }}</dd>
-  
-      <dt class="col-sm-4">Created By</dt>
-      <dd class="col-sm-8">{{ partner.createdByUser }}</dd>
-  
-      <dt class="col-sm-4">Is Foreign</dt>
-      <dd class="col-sm-8">{{ partner.isForeign ? 'Yes' : 'No' }}</dd>
-  
-      <dt class="col-sm-4">Gender</dt>
-      <dd class="col-sm-8">{{ partner.gender }}</dd>
+<div class="modal-body">
+  <dl class="row">
+    <dt class="col-sm-4">{{ 'partnerDetails.fullName' | transloco }}</dt>
+    <dd class="col-sm-8">{{ partner.fullname }}</dd>
 
-      <dt class="col-sm-4">External code</dt>
-      <dd class="col-sm-8">{{ partner.externalCode }}</dd>
-    </dl>
-  </div>
-  
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Close</button>
-  </div>
-  
+    <dt class="col-sm-4">{{ 'partnerDetails.address' | transloco }}</dt>
+    <dd class="col-sm-8">{{ partner.address }}</dd>
+
+    <dt class="col-sm-4">{{ 'partnerDetails.partnerNumber' | transloco }}</dt>
+    <dd class="col-sm-8">{{ partner.partnerNumber }}</dd>
+
+    <dt class="col-sm-4">{{ 'partnerDetails.croatianPIN' | transloco }}</dt>
+    <dd class="col-sm-8">{{ partner.croatianPIN || 'N/A' }}</dd>
+
+    <dt class="col-sm-4">{{ 'partnerDetails.partnerType' | transloco }}</dt>
+    <dd class="col-sm-8">{{ getPartnerTypeLabel(partner.partnerTypeId) | transloco }}</dd>
+
+    <dt class="col-sm-4">{{ 'partnerDetails.createdAt' | transloco }}</dt>
+    <dd class="col-sm-8">{{ partner.createdAtUtc | date: 'short' }}</dd>
+
+    <dt class="col-sm-4">{{ 'partnerDetails.createdBy' | transloco }}</dt>
+    <dd class="col-sm-8">{{ partner.createdByUser }}</dd>
+
+    <dt class="col-sm-4">{{ 'partnerDetails.isForeign' | transloco }}</dt>
+    <dd class="col-sm-8">{{ partner.isForeign ? ('partnerList.yes' | transloco) : ('partnerList.no' | transloco) }}</dd>
+
+    <dt class="col-sm-4">{{ 'partnerDetails.gender' | transloco }}</dt>
+    <dd class="col-sm-8">{{ partner.gender }}</dd>
+
+    <dt class="col-sm-4">{{ 'partnerDetails.externalCode' | transloco }}</dt>
+    <dd class="col-sm-8">{{ partner.externalCode }}</dd>
+  </dl>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">{{ 'partnerDetails.close' | transloco }}</button>
+</div>

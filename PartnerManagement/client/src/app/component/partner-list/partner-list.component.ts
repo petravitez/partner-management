@@ -6,12 +6,13 @@ import { PartnerService } from '../../service/partner.service';
 import { PartnerDetails } from '../../models/partner.details.model';
 import { PolicyModalComponent } from '../policy-modal/policy-modal.component';
 import { PartnerDetailsModalComponent } from '../partner-details-modal/partner-details-modal.component';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-partner-list',
   templateUrl: './partner-list.component.html',
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, TranslocoModule]
 })
 export class PartnerListComponent implements OnInit {
   partners = signal<PartnerDetails[]>([]);
@@ -72,6 +73,11 @@ export class PartnerListComponent implements OnInit {
   }
 
   getPartnerTypeLabel(typeId: number): string {
-    return typeId === 1 ? 'Personal' : typeId === 2 ? 'Legal' : 'Unknown';
+    switch (typeId) {
+      case 1: return 'partnerCreate.personal';
+      case 2: return 'partnerCreate.legal';
+      default: return 'common.unknown';
+    }
   }
+  
 }

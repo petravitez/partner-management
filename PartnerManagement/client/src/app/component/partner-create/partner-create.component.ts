@@ -6,13 +6,14 @@ import { PartnerService } from '../../service/partner.service';
 import { oibValidator } from '../../validators/oib-validator';
 import { externalCodeUniqueValidator } from '../../validators/external-code.validator';
 import { markFormGroupTouched } from '../../validators/update-form';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   standalone: true,
   selector: 'app-partner-create',
   templateUrl: './partner-create.component.html',
   styleUrls: ['./partner-create.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, TranslocoModule]
 })
 export class PartnerCreateComponent implements OnInit {
   partnerForm: FormGroup;

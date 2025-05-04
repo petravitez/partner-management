@@ -1,109 +1,97 @@
 <div class="container">
   <button class="btn btn-secondary mb-3" (click)="goBack()">
-    ← 
+    ← {{ 'partnerCreate.back' | transloco }}
   </button>
-  <h2 class="my-4">Create New Partner</h2>
+  <h2 class="my-4">{{ 'partnerCreate.title' | transloco }}</h2>
 
   <form [formGroup]="partnerForm" (ngSubmit)="onSubmit()">
-    
-    <!-- First Name -->
     <div class="form-group">
-      <label for="firstName">First Name</label>
+      <label for="firstName">{{ 'partnerCreate.firstName' | transloco }}</label>
       <input id="firstName" formControlName="firstName" class="form-control" />
       <div *ngIf="partnerForm.get('firstName')?.invalid && partnerForm.get('firstName')?.touched" class="text-danger">
-        First Name is required and must be at least 2 characters.
+        {{ 'partnerCreate.firstNameError' | transloco }}
       </div>
     </div>
 
-    <!-- Last Name -->
     <div class="form-group">
-      <label for="lastName">Last Name</label>
+      <label for="lastName">{{ 'partnerCreate.lastName' | transloco }}</label>
       <input id="lastName" formControlName="lastName" class="form-control" />
       <div *ngIf="partnerForm.get('lastName')?.invalid && partnerForm.get('lastName')?.touched" class="text-danger">
-        Last Name is required and must be at least 2 characters.
+        {{ 'partnerCreate.lastNameError' | transloco }}
       </div>
     </div>
 
-        <!-- Address -->
     <div class="form-group">
-      <label for="address">Address</label>
+      <label for="address">{{ 'partnerCreate.address' | transloco }}</label>
       <input id="address" formControlName="address" class="form-control" />
     </div>
 
-    <!-- Partner Number -->
     <div class="form-group">
-      <label for="partnerNumber">Partner Number</label>
+      <label for="partnerNumber">{{ 'partnerCreate.partnerNumber' | transloco }}</label>
       <input id="partnerNumber" formControlName="partnerNumber" class="form-control" />
       <div *ngIf="partnerForm.get('partnerNumber')?.invalid && partnerForm.get('partnerNumber')?.touched" class="text-danger">
-        Partner number is required and must be 20 characters.
+        {{ 'partnerCreate.partnerNumberError' | transloco }}
       </div>
     </div>
 
-    <!-- Croatian PIN -->
     <div class="form-group">
-      <label for="croatianPIN">Croatian PIN</label>
+      <label for="croatianPIN">{{ 'partnerCreate.croatianPIN' | transloco }}</label>
       <input id="croatianPIN" formControlName="croatianPIN" class="form-control" />
       <div *ngIf="partnerForm.get('croatianPIN')?.hasError('oibInvalid') && partnerForm.get('croatianPIN')?.touched" class="text-danger">
         {{ partnerForm.get('croatianPIN')?.getError('oibInvalid') }}
       </div>
     </div>
 
-    <!-- Partner Type -->
-<div class="form-group">
-  <label for="partnerTypeId">Partner Type</label>
-  <select id="partnerTypeId" formControlName="partnerTypeId" class="form-control">
-    <option value="">Select Partner Type</option>
-    <option value="1">Personal</option>
-    <option value="2">Legal</option>
-  </select>
-  <div *ngIf="partnerForm.get('partnerTypeId')?.invalid && partnerForm.get('partnerTypeId')?.touched" class="text-danger">
-    Partner Type is required.
-  </div>
-</div>
-
-
-    <!-- Created By -->
     <div class="form-group">
-      <label for="createdByUser">Created By</label>
-      <input id="createdByUser" formControlName="createdByUser" class="form-control" />
-      <div *ngIf="partnerForm.get('createdByUser')?.invalid && partnerForm.get('createdByUser')?.touched" class="text-danger">
-        Created By is required email.
+      <label for="partnerTypeId">{{ 'partnerCreate.partnerType' | transloco }}</label>
+      <select id="partnerTypeId" formControlName="partnerTypeId" class="form-control">
+        <option value="">{{ 'partnerCreate.partnerTypePlaceholder' | transloco }}</option>
+        <option value="1">{{ 'partnerCreate.personal' | transloco }}</option>
+        <option value="2">{{ 'partnerCreate.legal' | transloco }}</option>
+      </select>
+      <div *ngIf="partnerForm.get('partnerTypeId')?.invalid && partnerForm.get('partnerTypeId')?.touched" class="text-danger">
+        {{ 'partnerCreate.partnerTypeError' | transloco }}
       </div>
     </div>
 
-    <!-- Is Foreign -->
+    <div class="form-group">
+      <label for="createdByUser">{{ 'partnerCreate.createdBy' | transloco }}</label>
+      <input id="createdByUser" formControlName="createdByUser" class="form-control" />
+      <div *ngIf="partnerForm.get('createdByUser')?.invalid && partnerForm.get('createdByUser')?.touched" class="text-danger">
+        {{ 'partnerCreate.createdByError' | transloco }}
+      </div>
+    </div>
+
     <div class="form-group">
       <label>
-        <input type="checkbox" formControlName="isForeign" /> Is Foreign?
+        <input type="checkbox" formControlName="isForeign" />
+        {{ 'partnerCreate.isForeign' | transloco }}
       </label>
     </div>
 
-    <!-- External Code -->
     <div class="form-group">
-      <label for="externalCode">External Code</label>
+      <label for="externalCode">{{ 'partnerCreate.externalCode' | transloco }}</label>
       <input id="externalCode" formControlName="externalCode" class="form-control" />
       <div *ngIf="externalCodeTaken()" class="text-danger">
-        External code is already in use.
+        {{ 'partnerCreate.externalCodeError' | transloco }}
       </div>
     </div>
 
-    <!-- Gender -->
     <div class="form-group">
-      <label for="genderId">Gender</label>
+      <label for="genderId">{{ 'partnerCreate.gender' | transloco }}</label>
       <select id="genderId" formControlName="genderId" class="form-control">
-        <option value="">Select Gender</option>
+        <option value="">{{ 'partnerCreate.genderPlaceholder' | transloco }}</option>
         <option value="1">M</option>
         <option value="2">F</option>
         <option value="3">N</option>
       </select>
       <div *ngIf="partnerForm.get('genderId')?.invalid && partnerForm.get('genderId')?.touched" class="text-danger">
-        Gender is required.
+        {{ 'partnerCreate.genderError' | transloco }}
       </div>
     </div>
 
-    <!-- Submit -->
     <div class="form-group mt-3">
-      <button type="submit" class="btn btn-success">Save Partner</button>
+      <button type="submit" class="btn btn-success">{{ 'partnerCreate.save' | transloco }}</button>
     </div>
   </form>
 </div>
